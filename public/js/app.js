@@ -1850,9 +1850,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var default_layout = "default";
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: {},
+  props: ['spells'],
   data: function data() {
     return {
       message: 'Hello World2'
@@ -19424,7 +19426,10 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n  " + _vm._s(_vm.message) + "\n")])
+  return _c("div", [
+    _c("h1", [_vm._v("from inside are coming the")]),
+    _vm._v("\n  " + _vm._s(_vm.spells) + "\n")
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

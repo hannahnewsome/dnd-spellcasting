@@ -21,8 +21,9 @@
         </style>
     </head>
     <body class="antialiased">
+
     <div id="app">
-        <app></app>
+        <app spells="{{ $spells }}"></app>
     </div>
 
         <!-- Bootstrap -->
