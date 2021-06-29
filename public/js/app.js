@@ -1851,13 +1851,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-var default_layout = "default";
+//
+//
+//
+//
+//const default_layout = "default";
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: {},
+  methods: {
+    showSpell: function showSpell(spell) {
+      spell.show = 1;
+      this.$set(this.spellList, spell.Name, spell);
+      this.$forceUpdate(); //TODO find a better way to deal with the reactivity problem (probably need to update data structure & use :key)
+    },
+    hideSpell: function hideSpell(spell) {
+      spell.show = 0;
+      this.$set(this.spellList, spell.Name, spell);
+      this.$forceUpdate(); //TODO see previous todo
+    }
+  },
   props: ['spells'],
   data: function data() {
     return {
-      message: 'Hello World2'
+      spellList: JSON.parse(this.spells)
     };
   }
 });
@@ -19427,8 +19442,41 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("h1", [_vm._v("from inside are coming the")]),
-    _vm._v("\n  " + _vm._s(_vm.spells) + "\n")
+    _c(
+      "ul",
+      { attrs: { id: "spells" } },
+      _vm._l(_vm.spellList, function(spell) {
+        return _c("li", [
+          _c(
+            "span",
+            {
+              on: {
+                click: function($event) {
+                  spell.show === 1 ? _vm.hideSpell(spell) : _vm.showSpell(spell)
+                }
+              }
+            },
+            [_vm._v(_vm._s(spell.Name))]
+          ),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: spell.show === 1,
+                  expression: "spell.show === 1"
+                }
+              ]
+            },
+            [_vm._v(_vm._s(spell.Text))]
+          )
+        ])
+      }),
+      0
+    )
   ])
 }
 var staticRenderFns = []

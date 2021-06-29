@@ -17,8 +17,10 @@ class SpellTracker extends Controller
      */
     public function show()
     {
+        $class = 'Cleric'; //TEMPORARY! need new functionality to handle classes, this is just for testing
+
         return view('welcome', [
-            'spells' => Spell::get()
+            'spells' => Spell::where('Classes', 'like', '%' . $class . '%')->get()->toJson()
         ]);
     }
 }
