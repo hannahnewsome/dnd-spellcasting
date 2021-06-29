@@ -1855,7 +1855,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//const default_layout = "default";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
     showSpell: function showSpell(spell) {
@@ -1865,6 +1899,16 @@ __webpack_require__.r(__webpack_exports__);
     },
     hideSpell: function hideSpell(spell) {
       spell.show = 0;
+      this.$set(this.spellList, spell.Name, spell);
+      this.$forceUpdate(); //TODO see previous todo
+    },
+    prepareSpell: function prepareSpell(spell) {
+      spell.prepared = 1;
+      this.$set(this.spellList, spell.Name, spell);
+      this.$forceUpdate(); //TODO see previous todo; might want to handle prepared spells differently altogether by pushing and popping them from their own array
+    },
+    unprepareSpell: function unprepareSpell(spell) {
+      spell.prepared = 0;
       this.$set(this.spellList, spell.Name, spell);
       this.$forceUpdate(); //TODO see previous todo
     }
@@ -19441,42 +19485,170 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "ul",
-      { attrs: { id: "spells" } },
-      _vm._l(_vm.spellList, function(spell) {
-        return _c("li", [
-          _c(
-            "span",
-            {
-              on: {
-                click: function($event) {
-                  spell.show === 1 ? _vm.hideSpell(spell) : _vm.showSpell(spell)
-                }
-              }
-            },
-            [_vm._v(_vm._s(spell.Name))]
-          ),
-          _vm._v(" "),
-          _c(
-            "span",
-            {
-              directives: [
+  return _c("div", { attrs: { id: "container" } }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col" }, [
+        _vm._v("\n            Available spells\n            "),
+        _c(
+          "ul",
+          { staticClass: "list-group", attrs: { id: "spells" } },
+          _vm._l(_vm.spellList, function(spell) {
+            return _c("li", { staticClass: "list-group-item" }, [
+              _c(
+                "span",
                 {
-                  name: "show",
-                  rawName: "v-show",
-                  value: spell.show === 1,
-                  expression: "spell.show === 1"
+                  on: {
+                    click: function($event) {
+                      spell.show === 1
+                        ? _vm.hideSpell(spell)
+                        : _vm.showSpell(spell)
+                    }
+                  }
+                },
+                [
+                  _c("strong", [_vm._v(_vm._s(spell.Name))]),
+                  _vm._v(
+                    " | " +
+                      _vm._s(spell.Level) +
+                      " | " +
+                      _vm._s(spell["Casting Time"])
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                attrs: { type: "checkbox" },
+                domProps: { checked: spell.prepared },
+                on: {
+                  change: function($event) {
+                    spell.prepared === 1
+                      ? _vm.unprepareSpell(spell)
+                      : _vm.prepareSpell(spell)
+                  }
                 }
-              ]
-            },
-            [_vm._v(_vm._s(spell.Text))]
-          )
-        ])
-      }),
-      0
-    )
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: spell.show === 1,
+                      expression: "spell.show === 1"
+                    }
+                  ],
+                  staticClass: "card card-body"
+                },
+                [
+                  _vm._v(
+                    "\n                  " +
+                      _vm._s(spell.Duration) +
+                      " | " +
+                      _vm._s(spell.Range) +
+                      " \n                  "
+                  ),
+                  _c("br"),
+                  _vm._v(
+                    " \n                  " +
+                      _vm._s(spell.Components) +
+                      " | " +
+                      _vm._s(spell.School) +
+                      " \n                  "
+                  ),
+                  _c("br"),
+                  _vm._v(
+                    "\n                  " +
+                      _vm._s(spell.Text) +
+                      "\n                  "
+                  ),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("strong", [_vm._v("At Higher Levels:")]),
+                  _c("br"),
+                  _vm._v(
+                    _vm._s(spell["At Higher Levels"]) + "\n                "
+                  )
+                ]
+              )
+            ])
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col" }, [
+        _vm._v("\n            Prepared spells\n            "),
+        _c(
+          "ul",
+          { staticClass: "list-group", attrs: { id: "spells" } },
+          _vm._l(_vm.spellList, function(spell) {
+            return spell.prepared
+              ? _c("li", { staticClass: "list-group-item" }, [
+                  _c("span", [
+                    _c("strong", [_vm._v(_vm._s(spell.Name))]),
+                    _vm._v(
+                      " | " +
+                        _vm._s(spell.Level) +
+                        " | " +
+                        _vm._s(spell["Casting Time"])
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    attrs: { type: "checkbox" },
+                    domProps: { checked: spell.prepared },
+                    on: {
+                      change: function($event) {
+                        spell.prepared === 1
+                          ? _vm.unprepareSpell(spell)
+                          : _vm.prepareSpell(spell)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card card-body" }, [
+                    _vm._v(
+                      "\n                  " +
+                        _vm._s(spell.Duration) +
+                        " | " +
+                        _vm._s(spell.Range) +
+                        " \n                  "
+                    ),
+                    _c("br"),
+                    _vm._v(
+                      " \n                  " +
+                        _vm._s(spell.Components) +
+                        " | " +
+                        _vm._s(spell.School) +
+                        " \n                  "
+                    ),
+                    _c("br"),
+                    _vm._v(
+                      "\n                  " +
+                        _vm._s(spell.Text) +
+                        "\n                  "
+                    ),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("strong", [_vm._v("At Higher Levels:")]),
+                    _c("br"),
+                    _vm._v(
+                      _vm._s(spell["At Higher Levels"]) + "\n                "
+                    )
+                  ])
+                ])
+              : _vm._e()
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col" }, [
+        _vm._v("\n            Spellcasting\n          ")
+      ])
+    ])
   ])
 }
 var staticRenderFns = []
