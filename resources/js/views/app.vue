@@ -20,7 +20,10 @@
               </ul>
             </div>
             <div class="col">
-              Prepared spells
+              Prepared spells<br>
+              8 additional prepared spells<br>
+              <input type="checkbox"> | <input type="checkbox"> | <input type="checkbox"> | <input type="checkbox"><br>
+              <input type="checkbox"> | <input type="checkbox"> | <input type="checkbox"> | <input type="checkbox"><br>
               <ul id="spells" class="list-group">
                 <li v-for="spell in spellList" v-if="spell.prepared" class="list-group-item">
                   <span>
@@ -32,13 +35,24 @@
                     <br>
                     {{ spell.Text }}
                     <br>
-                    <strong>At Higher Levels:</strong><br>{{ spell["At Higher Levels"] }}
+                    <strong>At Higher Levels:</strong><br>{{ spell["At Higher Levels"] }}<br>
+                    <button type="button" class="btn btn-primary" v-on:click="castSpell(spell)">Cast Spell</button>
                   </div>
                 </li>
               </ul>
             </div>
             <div class="col">
-              Spellcasting
+              Spellcasting<br>
+              <p>Spell slots
+              1st: <input type="checkbox"> | <input type="checkbox"> | <input type="checkbox"> | <input type="checkbox"><br>
+              2nd: <input type="checkbox"> | <input type="checkbox"> | <input type="checkbox"><br>
+              3rd: <input type="checkbox"> | <input type="checkbox"> | <input type="checkbox"></p>
+              <ul id="spells" class="list-group">
+                <li v-for="spell in spellList" v-if="spell.cast" class="list-group-item">
+                  <span>
+                    <strong>{{ spell.Name }}</strong> | {{ spell.Level }} | {{ spell["Casting Time"] }} | Cast {{ spell.cast }} times</span>
+                </li>
+              </ul>
             </div>
         </div>
   </div>
@@ -65,6 +79,15 @@ export default {
     }, 
     unprepareSpell(spell){
       spell.prepared = 0;
+      this.$set(this.spellList, spell.Name, spell); 
+      this.$forceUpdate(); //TODO see previous todo
+    },
+    castSpell(spell){
+      if(spell.cast){
+        spell.cast++
+      } else {
+        spell.cast = 1;
+      }
       this.$set(this.spellList, spell.Name, spell); 
       this.$forceUpdate(); //TODO see previous todo
     }

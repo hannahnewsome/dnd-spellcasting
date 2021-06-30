@@ -1890,6 +1890,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
     showSpell: function showSpell(spell) {
@@ -1909,6 +1923,16 @@ __webpack_require__.r(__webpack_exports__);
     },
     unprepareSpell: function unprepareSpell(spell) {
       spell.prepared = 0;
+      this.$set(this.spellList, spell.Name, spell);
+      this.$forceUpdate(); //TODO see previous todo
+    },
+    castSpell: function castSpell(spell) {
+      if (spell.cast) {
+        spell.cast++;
+      } else {
+        spell.cast = 1;
+      }
+
       this.$set(this.spellList, spell.Name, spell);
       this.$forceUpdate(); //TODO see previous todo
     }
@@ -19579,7 +19603,29 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col" }, [
-        _vm._v("\n            Prepared spells\n            "),
+        _vm._v("\n            Prepared spells"),
+        _c("br"),
+        _vm._v("\n            8 additional prepared spells"),
+        _c("br"),
+        _vm._v(" "),
+        _c("input", { attrs: { type: "checkbox" } }),
+        _vm._v(" | "),
+        _c("input", { attrs: { type: "checkbox" } }),
+        _vm._v(" | "),
+        _c("input", { attrs: { type: "checkbox" } }),
+        _vm._v(" | "),
+        _c("input", { attrs: { type: "checkbox" } }),
+        _c("br"),
+        _vm._v(" "),
+        _c("input", { attrs: { type: "checkbox" } }),
+        _vm._v(" | "),
+        _c("input", { attrs: { type: "checkbox" } }),
+        _vm._v(" | "),
+        _c("input", { attrs: { type: "checkbox" } }),
+        _vm._v(" | "),
+        _c("input", { attrs: { type: "checkbox" } }),
+        _c("br"),
+        _vm._v(" "),
         _c(
           "ul",
           { staticClass: "list-group", attrs: { id: "spells" } },
@@ -19634,8 +19680,21 @@ var render = function() {
                     _vm._v(" "),
                     _c("strong", [_vm._v("At Higher Levels:")]),
                     _c("br"),
-                    _vm._v(
-                      _vm._s(spell["At Higher Levels"]) + "\n                "
+                    _vm._v(_vm._s(spell["At Higher Levels"])),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.castSpell(spell)
+                          }
+                        }
+                      },
+                      [_vm._v("Cast Spell")]
                     )
                   ])
                 ])
@@ -19646,12 +19705,69 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col" }, [
-        _vm._v("\n            Spellcasting\n          ")
+        _vm._v("\n            Spellcasting"),
+        _c("br"),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "ul",
+          { staticClass: "list-group", attrs: { id: "spells" } },
+          _vm._l(_vm.spellList, function(spell) {
+            return spell.cast
+              ? _c("li", { staticClass: "list-group-item" }, [
+                  _c("span", [
+                    _c("strong", [_vm._v(_vm._s(spell.Name))]),
+                    _vm._v(
+                      " | " +
+                        _vm._s(spell.Level) +
+                        " | " +
+                        _vm._s(spell["Casting Time"]) +
+                        " | Cast " +
+                        _vm._s(spell.cast) +
+                        " times"
+                    )
+                  ])
+                ])
+              : _vm._e()
+          }),
+          0
+        )
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("Spell slots\n            1st: "),
+      _c("input", { attrs: { type: "checkbox" } }),
+      _vm._v(" | "),
+      _c("input", { attrs: { type: "checkbox" } }),
+      _vm._v(" | "),
+      _c("input", { attrs: { type: "checkbox" } }),
+      _vm._v(" | "),
+      _c("input", { attrs: { type: "checkbox" } }),
+      _c("br"),
+      _vm._v("\n            2nd: "),
+      _c("input", { attrs: { type: "checkbox" } }),
+      _vm._v(" | "),
+      _c("input", { attrs: { type: "checkbox" } }),
+      _vm._v(" | "),
+      _c("input", { attrs: { type: "checkbox" } }),
+      _c("br"),
+      _vm._v("\n            3rd: "),
+      _c("input", { attrs: { type: "checkbox" } }),
+      _vm._v(" | "),
+      _c("input", { attrs: { type: "checkbox" } }),
+      _vm._v(" | "),
+      _c("input", { attrs: { type: "checkbox" } })
+    ])
+  }
+]
 render._withStripped = true
 
 
