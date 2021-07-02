@@ -3,7 +3,7 @@ version: '3'
 services:
     laravel.test:
         build:
-            context: ./vendor/laravel/sail/runtimes/8.0
+            context: ./docker/8.0
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
@@ -77,6 +77,17 @@ services:
             - '/dev/shm:/dev/shm'
        networks:
            - sail
+    mongo:
+        image: 'mongo:4.4'
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: '${DB_USERNAME}'
+            MONGO_INITDB_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MONGO_INITDB_DATABASE: '${DB_DATABASE}'
+        volumes:
+            - 'sailmongo:/data/db'
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge
@@ -86,4 +97,6 @@ volumes:
     sailredis:
         driver: local
     sailmeilisearch:
+        driver: local
+    sailmongo:
         driver: local
