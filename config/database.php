@@ -64,14 +64,9 @@ return [
         ],
         'mongodb' => [
             'driver' => 'mongodb',
-            'host' => env('DB_HOST'),
-            'port' => env('DB_PORT'),
+            'dsn' => 'mongodb+srv://admin:' . env('DB_PASSWORD') . '@' . env('DB_HOST'). '/'. env('DB_DATABASE') .'?retryWrites=true&w=majority',
             'database' => env('DB_DATABASE'),
-            'username' => env('DB_USERNAME'),
-            'password' => env('DB_PASSWORD'),
-            'options' => [
-                'database' => env('DB_AUTHENTICATION_DATABASE', 'admin'),
-            ]],
+           ],
 
         'pgsql' => [
             'driver' => 'pgsql',
