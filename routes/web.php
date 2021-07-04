@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SpellTracker;
+use App\Http\Controllers\CharacterController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,3 +15,4 @@ use App\Http\Controllers\SpellTracker;
 */
 
 Route::get('/', [SpellTracker::class, 'show']);
+Route::get('/createPlayer', [CharacterController::class, 'show']);
