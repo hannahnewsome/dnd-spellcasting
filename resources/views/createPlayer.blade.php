@@ -23,16 +23,43 @@
     <body class="antialiased">
 
     <div id="body">
-    <select name="job" id="job">
-    @foreach($options['classes'] as $class)
-    <option value="{{ $class }}">{{ $class }}</option>
-    @endforeach
-    </select>
-    <select name="race" id="race">
-    @foreach($options['races'] as $race)
-    <option value="{{ $race }}">{{ $race }}</option>
-    @endforeach
-    </select>
+
+    Character name
+    Class & level (deal w/ multiclassing later)
+
+    
+
+    cantrips known
+    <form action="/createNewPlayer" method="POST">
+        <input type="text" name="charName" id="charName" placeholder="character name">
+        <input type="text" name="charAC" id="charAC" placeholder="armor class">
+        <input type="text" name="charSpeed" id="charSpeed" placeholder="character speed">
+        <input type="text" name="charStr" id="charStr" placeholder="character strength">
+        <input type="text" name="charDex" id="charDex" placeholder="character dexterity">
+        <input type="text" name="charCon" id="charCon" placeholder="character constitution">
+        <input type="text" name="charInt" id="charInt" placeholder="character intelligence">
+        <input type="text" name="charWis" id="charWis" placeholder="character wisdom">
+        <input type="text" name="charCha" id="charCha" placeholder="character charisma">
+        <input type="text" name="charHP" id="charHP" placeholder="character HP">
+        <input type="text" name="charLvl" id="charLvl" placeholder="character level">
+        <label for="job">Choose a class</label>
+        <select name="job" id="job">
+        @foreach($options['classes'] as $class)
+        <option value="{{ $class }}">{{ $class }}</option>
+        @endforeach
+        </select>
+        <select name="race" id="race">
+        @foreach($options['races'] as $race)
+        <option value="{{ $race }}">{{ $race }}</option>
+        @endforeach
+        </select>
+        <select name="background" id="background">
+        @foreach($options['backgrounds'] as $background)
+        <option value="{{ $background }}">{{ $background }}</option>
+        @endforeach
+        </select>
+        <input type="submit">
+    </form>
         create new PC
     </div>
 

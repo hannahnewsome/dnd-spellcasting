@@ -16,3 +16,5 @@ use App\Http\Controllers\CharacterController;
 
 Route::get('/', [SpellTracker::class, 'show']);
 Route::get('/createPlayer', [CharacterController::class, 'show']);
+
+Route::post('/createNewPlayer', [CharacterController::class, 'createNewPlayer']);
