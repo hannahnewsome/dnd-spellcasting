@@ -31,6 +31,7 @@
 
     cantrips known
     <form action="/createNewPlayer" method="POST">
+    @csrf
         <input type="text" name="charName" id="charName" placeholder="character name">
         <input type="text" name="charAC" id="charAC" placeholder="armor class">
         <input type="text" name="charSpeed" id="charSpeed" placeholder="character speed">
