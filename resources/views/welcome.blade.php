@@ -24,6 +24,7 @@
            
     <div id="app">
         <app spells="{{ $spells }}"></app>
+        @str_ordinal(2)
     </div>
 
         <!-- Bootstrap -->
