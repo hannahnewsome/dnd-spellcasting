@@ -16,14 +16,14 @@ class CharacterController extends Controller
      */
     public function show()
     {
-
         return view('createPlayer', ['options' => Option::first()]);
     }
 
     public function createNewPlayer(Request $request)
     {
+        $user = auth()->user();
         $character = new Character;
-        $character->user_id = 1; //temporary until I get auth set up
+        $character->user_id = $user->_id; //temporary until I get auth set up
         $character->name = $request->charName;
         $character->ac = $request->charAC;
         $character->speed = $request->charSpeed;
