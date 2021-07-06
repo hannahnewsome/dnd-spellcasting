@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Spell;
+use App\Models\Character;
 
 
 class SpellTracker extends Controller
@@ -17,10 +18,11 @@ class SpellTracker extends Controller
      */
     public function show()
     {
-        $class = 'Cleric'; //TEMPORARY! need new functionality to handle classes, this is just for testing
+        $character = Character::where('user_id', auth()->user()->_id)->first(); // still TEMPORARY! will add support for multiple characters later
+    
 
         return view('welcome', [
-            'spells' => Spell::where('Classes', 'like', '%' . $class . '%')->get()->toJson()
+            'spells' => Spell::where('Classes', 'like', '%' . ucfirst($character->class) . '%')->get()->toJson()
         ]);
     }
 }

@@ -4,7 +4,7 @@
             <div class="col">
               Available spells
               <ul id="spells" class="list-group">
-                <li v-for="spell in spellList" class="list-group-item">
+                <li v-for="spell in spellList" v-bind:key="spell.Name" class="list-group-item">
                   <span v-on:click="spell.show === 1 ? hideSpell(spell) : showSpell(spell)">
                     <strong>{{ spell.Name }}</strong> | {{ spell.Level }} | {{ spell["Casting Time"] }}</span> <input type="checkbox" :checked="spell.prepared" v-on:change="spell.prepared === 1 ? unprepareSpell(spell) : prepareSpell(spell)">
                   <div class="card card-body" v-show="spell.show === 1">
@@ -25,7 +25,7 @@
               <input type="checkbox"> | <input type="checkbox"> | <input type="checkbox"> | <input type="checkbox"><br>
               <input type="checkbox"> | <input type="checkbox"> | <input type="checkbox"> | <input type="checkbox"><br>
               <ul id="spells" class="list-group">
-                <li v-for="spell in spellList" v-if="spell.prepared" class="list-group-item">
+                <li v-for="spell in spellList" v-bind:key="spell.Name" v-if="spell.prepared" class="list-group-item">
                   <span>
                     <strong>{{ spell.Name }}</strong> | {{ spell.Level }} | {{ spell["Casting Time"] }}</span> <input type="checkbox" :checked="spell.prepared" v-on:change="spell.prepared === 1 ? unprepareSpell(spell) : prepareSpell(spell)">
                   <div class="card card-body">
@@ -48,7 +48,7 @@
               2nd: <input type="checkbox"> | <input type="checkbox"> | <input type="checkbox"><br>
               3rd: <input type="checkbox"> | <input type="checkbox"> | <input type="checkbox"></p>
               <ul id="spells" class="list-group">
-                <li v-for="spell in spellList" v-if="spell.cast" class="list-group-item">
+                <li v-for="spell in spellList" v-bind:key="spell.Name" v-if="spell.cast" class="list-group-item">
                   <span>
                     <strong>{{ spell.Name }}</strong> | {{ spell.Level }} | {{ spell["Casting Time"] }} | Cast {{ spell.cast }} times</span>
                 </li>
