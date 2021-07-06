@@ -14,7 +14,11 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    {{ __('You are logged in!') }}<br><br>
+                    <strong>Current Characters</strong><br>
+                    @foreach($characters as $character)
+                    {{ $character->name }}
+                    @endforeach
                 </div>
             </div>
         </div>

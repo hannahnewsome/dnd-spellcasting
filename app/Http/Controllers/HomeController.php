@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Character;
 
 use Illuminate\Http\Request;
 
@@ -23,6 +24,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('home', ['characters' => Character::where('user_id', auth()->user()->_id)->get()]);
     }
 }
