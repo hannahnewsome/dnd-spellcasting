@@ -22,7 +22,8 @@ class SpellTracker extends Controller
     
 
         return view('welcome', [
-            'spells' => Spell::where('Classes', 'like', '%' . ucfirst($character->class) . '%')->get()->toJson()
+            'spells' => Spell::where('Classes', 'like', '%' . ucfirst($character->class) . '%')->get()->toJson(),
+            'character' => $character->toJson()
         ]);
     }
 }

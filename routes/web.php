@@ -17,5 +17,6 @@ use App\Http\Controllers\CharacterController;
 Route::get('/', [SpellTracker::class, 'show'])->middleware('auth');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 Route::get('/createPlayer', [CharacterController::class, 'show'])->middleware('auth');
+Route::get('/formatData', [CharacterController::class, 'format'])->middleware('auth');
 Route::post('/createNewPlayer', [CharacterController::class, 'createNewPlayer'])->middleware('auth');
 Auth::routes();

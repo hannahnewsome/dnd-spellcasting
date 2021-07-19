@@ -21,13 +21,11 @@
             </div>
             <div class="col">
               Prepared spells<br>
-              8 additional prepared spells<br>
-              <input type="checkbox"> | <input type="checkbox"> | <input type="checkbox"> | <input type="checkbox"><br>
-              <input type="checkbox"> | <input type="checkbox"> | <input type="checkbox"> | <input type="checkbox"><br>
+              {{ getAvailableToPrepareNumber() }} available spells to prepare<br>
               <ul id="spells" class="list-group">
-                <li v-for="spell in spellList" v-bind:key="spell.Name" v-if="spell.prepared" class="list-group-item">
+                <li v-for="(spell, index) in preparedSpells" v-bind:key="spell.Name" class="list-group-item">
                   <span>
-                    <strong>{{ spell.Name }}</strong> | {{ spell.Level }} | {{ spell["Casting Time"] }}</span> <input type="checkbox" :checked="spell.prepared" v-on:change="spell.prepared === 1 ? unprepareSpell(spell) : prepareSpell(spell)">
+                    <strong>{{ spell.Name }}</strong> | {{ spell.Level }} | {{ spell["Casting Time"] }}</span> <input type="checkbox" :checked="spell.prepared" v-on:change="unprepareSpell(spell)">
                   <div class="card card-body">
                     {{ spell.Duration }} | {{ spell.Range }} 
                     <br> 
@@ -63,6 +61,7 @@
 export default {
   methods: {
     showSpell(spell) {
+      console.log(this.mainCharacter);
       spell.show = 1;
       this.$set(this.spellList, spell.Name, spell); 
       this.$forceUpdate(); //TODO find a better way to deal with the reactivity problem (probably need to update data structure & use :key)
@@ -73,13 +72,16 @@ export default {
       this.$forceUpdate(); //TODO see previous todo
     },
     prepareSpell(spell){
+      this.preparedSpells.push(spell);
       spell.prepared = 1;
       this.$set(this.spellList, spell.Name, spell); 
       this.$forceUpdate(); //TODO see previous todo; might want to handle prepared spells differently altogether by pushing and popping them from their own array
     }, 
     unprepareSpell(spell){
-      spell.prepared = 0;
-      this.$set(this.spellList, spell.Name, spell); 
+      _.remove(this.preparedSpells, item => item.Name === spell.Name);
+      console.log(this.preparedSpells.length);
+      //spell.prepared = 0;
+      //this.$set(this.spellList, spell.Name, spell); 
       this.$forceUpdate(); //TODO see previous todo
     },
     castSpell(spell){
@@ -90,12 +92,18 @@ export default {
       }
       this.$set(this.spellList, spell.Name, spell); 
       this.$forceUpdate(); //TODO see previous todo
+    },
+    getAvailableToPrepareNumber(){
+      let numberPrepared = this.preparedSpells.length;
+      return parseInt(this.mainCharacter.level) + parseInt(this.mainCharacter.wis_mod) - numberPrepared;
     }
   },
-  props: ['spells'],
+  props: ['spells', 'character'],
   data() {
       return {
-          spellList: JSON.parse(this.spells)
+          spellList: JSON.parse(this.spells),
+          mainCharacter: JSON.parse(this.character),
+          preparedSpells: []
       } 
   }
 };

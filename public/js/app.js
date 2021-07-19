@@ -1902,11 +1902,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
     showSpell: function showSpell(spell) {
+      console.log(this.mainCharacter);
       spell.show = 1;
       this.$set(this.spellList, spell.Name, spell);
       this.$forceUpdate(); //TODO find a better way to deal with the reactivity problem (probably need to update data structure & use :key)
@@ -1917,13 +1916,19 @@ __webpack_require__.r(__webpack_exports__);
       this.$forceUpdate(); //TODO see previous todo
     },
     prepareSpell: function prepareSpell(spell) {
+      this.preparedSpells.push(spell);
       spell.prepared = 1;
       this.$set(this.spellList, spell.Name, spell);
       this.$forceUpdate(); //TODO see previous todo; might want to handle prepared spells differently altogether by pushing and popping them from their own array
     },
     unprepareSpell: function unprepareSpell(spell) {
-      spell.prepared = 0;
-      this.$set(this.spellList, spell.Name, spell);
+      _.remove(this.preparedSpells, function (item) {
+        return item.Name === spell.Name;
+      });
+
+      console.log(this.preparedSpells.length); //spell.prepared = 0;
+      //this.$set(this.spellList, spell.Name, spell); 
+
       this.$forceUpdate(); //TODO see previous todo
     },
     castSpell: function castSpell(spell) {
@@ -1935,12 +1940,18 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$set(this.spellList, spell.Name, spell);
       this.$forceUpdate(); //TODO see previous todo
+    },
+    getAvailableToPrepareNumber: function getAvailableToPrepareNumber() {
+      var numberPrepared = this.preparedSpells.length;
+      return parseInt(this.mainCharacter.level) + parseInt(this.mainCharacter.wis_mod) - numberPrepared;
     }
   },
-  props: ['spells'],
+  props: ['spells', 'character'],
   data: function data() {
     return {
-      spellList: JSON.parse(this.spells)
+      spellList: JSON.parse(this.spells),
+      mainCharacter: JSON.parse(this.character),
+      preparedSpells: []
     };
   }
 });
@@ -37636,100 +37647,86 @@ var render = function() {
       _c("div", { staticClass: "col" }, [
         _vm._v("\n            Prepared spells"),
         _c("br"),
-        _vm._v("\n            8 additional prepared spells"),
-        _c("br"),
-        _vm._v(" "),
-        _c("input", { attrs: { type: "checkbox" } }),
-        _vm._v(" | "),
-        _c("input", { attrs: { type: "checkbox" } }),
-        _vm._v(" | "),
-        _c("input", { attrs: { type: "checkbox" } }),
-        _vm._v(" | "),
-        _c("input", { attrs: { type: "checkbox" } }),
-        _c("br"),
-        _vm._v(" "),
-        _c("input", { attrs: { type: "checkbox" } }),
-        _vm._v(" | "),
-        _c("input", { attrs: { type: "checkbox" } }),
-        _vm._v(" | "),
-        _c("input", { attrs: { type: "checkbox" } }),
-        _vm._v(" | "),
-        _c("input", { attrs: { type: "checkbox" } }),
+        _vm._v(
+          "\n            " +
+            _vm._s(_vm.getAvailableToPrepareNumber()) +
+            " available spells to prepare"
+        ),
         _c("br"),
         _vm._v(" "),
         _c(
           "ul",
           { staticClass: "list-group", attrs: { id: "spells" } },
-          _vm._l(_vm.spellList, function(spell) {
-            return spell.prepared
-              ? _c("li", { key: spell.Name, staticClass: "list-group-item" }, [
-                  _c("span", [
-                    _c("strong", [_vm._v(_vm._s(spell.Name))]),
-                    _vm._v(
+          _vm._l(_vm.preparedSpells, function(spell, index) {
+            return _c(
+              "li",
+              { key: spell.Name, staticClass: "list-group-item" },
+              [
+                _c("span", [
+                  _c("strong", [_vm._v(_vm._s(spell.Name))]),
+                  _vm._v(
+                    " | " +
+                      _vm._s(spell.Level) +
                       " | " +
-                        _vm._s(spell.Level) +
-                        " | " +
-                        _vm._s(spell["Casting Time"])
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    attrs: { type: "checkbox" },
-                    domProps: { checked: spell.prepared },
-                    on: {
-                      change: function($event) {
-                        spell.prepared === 1
-                          ? _vm.unprepareSpell(spell)
-                          : _vm.prepareSpell(spell)
-                      }
+                      _vm._s(spell["Casting Time"])
+                  )
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: { type: "checkbox" },
+                  domProps: { checked: spell.prepared },
+                  on: {
+                    change: function($event) {
+                      return _vm.unprepareSpell(spell)
                     }
-                  }),
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "card card-body" }, [
+                  _vm._v(
+                    "\n                  " +
+                      _vm._s(spell.Duration) +
+                      " | " +
+                      _vm._s(spell.Range) +
+                      " \n                  "
+                  ),
+                  _c("br"),
+                  _vm._v(
+                    " \n                  " +
+                      _vm._s(spell.Components) +
+                      " | " +
+                      _vm._s(spell.School) +
+                      " \n                  "
+                  ),
+                  _c("br"),
+                  _vm._v(
+                    "\n                  " +
+                      _vm._s(spell.Text) +
+                      "\n                  "
+                  ),
+                  _c("br"),
                   _vm._v(" "),
-                  _c("div", { staticClass: "card card-body" }, [
-                    _vm._v(
-                      "\n                  " +
-                        _vm._s(spell.Duration) +
-                        " | " +
-                        _vm._s(spell.Range) +
-                        " \n                  "
-                    ),
-                    _c("br"),
-                    _vm._v(
-                      " \n                  " +
-                        _vm._s(spell.Components) +
-                        " | " +
-                        _vm._s(spell.School) +
-                        " \n                  "
-                    ),
-                    _c("br"),
-                    _vm._v(
-                      "\n                  " +
-                        _vm._s(spell.Text) +
-                        "\n                  "
-                    ),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("strong", [_vm._v("At Higher Levels:")]),
-                    _c("br"),
-                    _vm._v(_vm._s(spell["At Higher Levels"])),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.castSpell(spell)
-                          }
+                  _c("strong", [_vm._v("At Higher Levels:")]),
+                  _c("br"),
+                  _vm._v(_vm._s(spell["At Higher Levels"])),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.castSpell(spell)
                         }
-                      },
-                      [_vm._v("Cast Spell")]
-                    )
-                  ])
+                      }
+                    },
+                    [_vm._v("Cast Spell")]
+                  )
                 ])
-              : _vm._e()
+              ]
+            )
           }),
           0
         )

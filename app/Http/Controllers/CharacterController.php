@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Models\Option;
 use App\Models\Character;
+use App\Models\Spell;
 
 class CharacterController extends Controller
 {
@@ -16,6 +18,8 @@ class CharacterController extends Controller
      */
     public function show()
     {
+        $user = auth()->user();
+        Log::debug($user);
         return view('createPlayer', ['options' => Option::first()]);
     }
 
@@ -23,7 +27,7 @@ class CharacterController extends Controller
     {
         $user = auth()->user();
         $character = new Character;
-        $character->user_id = $user->_id; //temporary until I get auth set up
+        $character->user_id = $user->_id;
         $character->name = $request->charName;
         $character->ac = $request->charAC;
         $character->speed = $request->charSpeed;
@@ -40,5 +44,9 @@ class CharacterController extends Controller
         $character->background = $request->background;
         $character->save();
         return view('createPlayer', ['options' => Option::first()]);
+    }
+    public function format()
+    {
+        Log::debug(Spell::get());
     }
 }
