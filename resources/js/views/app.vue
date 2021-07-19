@@ -61,7 +61,6 @@
 export default {
   methods: {
     showSpell(spell) {
-      console.log(this.mainCharacter);
       spell.show = 1;
       this.$set(this.spellList, spell.Name, spell); 
       this.$forceUpdate(); //TODO find a better way to deal with the reactivity problem (probably need to update data structure & use :key)
@@ -73,15 +72,10 @@ export default {
     },
     prepareSpell(spell){
       this.preparedSpells.push(spell);
-      spell.prepared = 1;
-      this.$set(this.spellList, spell.Name, spell); 
       this.$forceUpdate(); //TODO see previous todo; might want to handle prepared spells differently altogether by pushing and popping them from their own array
     }, 
     unprepareSpell(spell){
       _.remove(this.preparedSpells, item => item.Name === spell.Name);
-      console.log(this.preparedSpells.length);
-      //spell.prepared = 0;
-      //this.$set(this.spellList, spell.Name, spell); 
       this.$forceUpdate(); //TODO see previous todo
     },
     castSpell(spell){
@@ -96,6 +90,9 @@ export default {
     getAvailableToPrepareNumber(){
       let numberPrepared = this.preparedSpells.length;
       return parseInt(this.mainCharacter.level) + parseInt(this.mainCharacter.wis_mod) - numberPrepared;
+    },
+    getPreparedSpells(){
+      return this.preparedSpells;
     }
   },
   props: ['spells', 'character'],
@@ -103,7 +100,8 @@ export default {
       return {
           spellList: JSON.parse(this.spells),
           mainCharacter: JSON.parse(this.character),
-          preparedSpells: []
+          preparedSpells: [],
+          castSpells: []
       } 
   }
 };

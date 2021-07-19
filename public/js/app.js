@@ -1905,7 +1905,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
     showSpell: function showSpell(spell) {
-      console.log(this.mainCharacter);
       spell.show = 1;
       this.$set(this.spellList, spell.Name, spell);
       this.$forceUpdate(); //TODO find a better way to deal with the reactivity problem (probably need to update data structure & use :key)
@@ -1917,17 +1916,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     prepareSpell: function prepareSpell(spell) {
       this.preparedSpells.push(spell);
-      spell.prepared = 1;
-      this.$set(this.spellList, spell.Name, spell);
       this.$forceUpdate(); //TODO see previous todo; might want to handle prepared spells differently altogether by pushing and popping them from their own array
     },
     unprepareSpell: function unprepareSpell(spell) {
       _.remove(this.preparedSpells, function (item) {
         return item.Name === spell.Name;
       });
-
-      console.log(this.preparedSpells.length); //spell.prepared = 0;
-      //this.$set(this.spellList, spell.Name, spell); 
 
       this.$forceUpdate(); //TODO see previous todo
     },
@@ -1944,6 +1938,9 @@ __webpack_require__.r(__webpack_exports__);
     getAvailableToPrepareNumber: function getAvailableToPrepareNumber() {
       var numberPrepared = this.preparedSpells.length;
       return parseInt(this.mainCharacter.level) + parseInt(this.mainCharacter.wis_mod) - numberPrepared;
+    },
+    getPreparedSpells: function getPreparedSpells() {
+      return this.preparedSpells;
     }
   },
   props: ['spells', 'character'],
@@ -1951,7 +1948,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       spellList: JSON.parse(this.spells),
       mainCharacter: JSON.parse(this.character),
-      preparedSpells: []
+      preparedSpells: [],
+      castSpells: []
     };
   }
 });
