@@ -23,6 +23,14 @@ class CharacterController extends Controller
         return view('createPlayer', ['options' => Option::first()]);
     }
 
+    public function getCantripsKnown()
+    {
+        $user = auth()->user();
+        $character = Character::where('user_id', $user->_id)->first();
+        return Spell::whereIn('Name', $character->cantrips_known)->get();
+        
+    }
+
     public function createNewPlayer(Request $request)
     {
         $user = auth()->user();
@@ -47,6 +55,7 @@ class CharacterController extends Controller
     }
     public function format()
     {
+        $this->getCantripsKnown();
         Log::debug(Spell::get());
     }
 }

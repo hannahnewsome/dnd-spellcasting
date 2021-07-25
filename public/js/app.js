@@ -1902,6 +1902,58 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
     showSpell: function showSpell(spell) {
@@ -1911,15 +1963,15 @@ __webpack_require__.r(__webpack_exports__);
     },
     hideSpell: function hideSpell(spell) {
       spell.show = 0;
-      this.$set(this.spellList, spell.Name, spell);
+      Vue.set(this.spellList, spell.Name, spell);
       this.$forceUpdate(); //TODO see previous todo
     },
     prepareSpell: function prepareSpell(spell) {
-      this.preparedSpells.push(spell);
+      this.preparedList.push(spell);
       this.$forceUpdate(); //TODO see previous todo; might want to handle prepared spells differently altogether by pushing and popping them from their own array
     },
     unprepareSpell: function unprepareSpell(spell) {
-      _.remove(this.preparedSpells, function (item) {
+      _.remove(this.preparedList, function (item) {
         return item.Name === spell.Name;
       });
 
@@ -1936,18 +1988,22 @@ __webpack_require__.r(__webpack_exports__);
       this.$forceUpdate(); //TODO see previous todo
     },
     getAvailableToPrepareNumber: function getAvailableToPrepareNumber() {
-      var numberPrepared = this.preparedSpells.length;
+      var numberPrepared = this.preparedList.length;
       return parseInt(this.mainCharacter.level) + parseInt(this.mainCharacter.wis_mod) - numberPrepared;
     },
     getPreparedSpells: function getPreparedSpells() {
-      return this.preparedSpells;
+      return this.preparedList;
     }
   },
-  props: ['spells', 'character'],
+  props: ['spells', 'character', 'cantripsKnown', 'subclassSpells', 'charPreparedSpells', 'spellsKnown'],
   data: function data() {
     return {
       spellList: JSON.parse(this.spells),
       mainCharacter: JSON.parse(this.character),
+      preparedList: JSON.parse(this.charPreparedSpells),
+      subclassList: JSON.parse(this.subclassSpells),
+      cantripList: JSON.parse(this.cantripsKnown),
+      spellsKnownList: JSON.parse(this.spellsKnown),
       preparedSpells: [],
       castSpells: []
     };
@@ -37643,7 +37699,214 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col" }, [
-        _vm._v("\n            Prepared spells"),
+        _vm._v("\n            Cantrips Known"),
+        _c("br"),
+        _vm._v(" "),
+        _c(
+          "ul",
+          { staticClass: "list-group", attrs: { id: "spells" } },
+          _vm._l(_vm.cantripList, function(spell, index) {
+            return _c(
+              "li",
+              { key: spell.Name, staticClass: "list-group-item" },
+              [
+                _c("span", [
+                  _c("strong", [_vm._v(_vm._s(spell.Name))]),
+                  _vm._v(
+                    " | " +
+                      _vm._s(spell.Level) +
+                      " | " +
+                      _vm._s(spell["Casting Time"])
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card card-body" }, [
+                  _vm._v(
+                    "\n                  " +
+                      _vm._s(spell.Duration) +
+                      " | " +
+                      _vm._s(spell.Range) +
+                      " \n                  "
+                  ),
+                  _c("br"),
+                  _vm._v(
+                    " \n                  " +
+                      _vm._s(spell.Components) +
+                      " | " +
+                      _vm._s(spell.School) +
+                      " \n                  "
+                  ),
+                  _c("br"),
+                  _vm._v(
+                    "\n                  " +
+                      _vm._s(spell.Text) +
+                      "\n                  "
+                  ),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("strong", [_vm._v("At Higher Levels:")]),
+                  _c("br"),
+                  _vm._v(_vm._s(spell["At Higher Levels"])),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.castSpell(spell)
+                        }
+                      }
+                    },
+                    [_vm._v("Cast Spell")]
+                  )
+                ])
+              ]
+            )
+          }),
+          0
+        ),
+        _vm._v("\n            Spells Known"),
+        _c("br"),
+        _vm._v(" "),
+        _c(
+          "ul",
+          { staticClass: "list-group", attrs: { id: "spells" } },
+          _vm._l(_vm.spellsKnownList, function(spell, index) {
+            return _c(
+              "li",
+              { key: spell.Name, staticClass: "list-group-item" },
+              [
+                _c("span", [
+                  _c("strong", [_vm._v(_vm._s(spell.Name))]),
+                  _vm._v(
+                    " | " +
+                      _vm._s(spell.Level) +
+                      " | " +
+                      _vm._s(spell["Casting Time"])
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card card-body" }, [
+                  _vm._v(
+                    "\n                  " +
+                      _vm._s(spell.Duration) +
+                      " | " +
+                      _vm._s(spell.Range) +
+                      " \n                  "
+                  ),
+                  _c("br"),
+                  _vm._v(
+                    " \n                  " +
+                      _vm._s(spell.Components) +
+                      " | " +
+                      _vm._s(spell.School) +
+                      " \n                  "
+                  ),
+                  _c("br"),
+                  _vm._v(
+                    "\n                  " +
+                      _vm._s(spell.Text) +
+                      "\n                  "
+                  ),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("strong", [_vm._v("At Higher Levels:")]),
+                  _c("br"),
+                  _vm._v(_vm._s(spell["At Higher Levels"])),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.castSpell(spell)
+                        }
+                      }
+                    },
+                    [_vm._v("Cast Spell")]
+                  )
+                ])
+              ]
+            )
+          }),
+          0
+        ),
+        _vm._v("\n            Subclass Spells"),
+        _c("br"),
+        _vm._v(" "),
+        _c(
+          "ul",
+          { staticClass: "list-group", attrs: { id: "spells" } },
+          _vm._l(_vm.subclassList, function(spell, index) {
+            return _c(
+              "li",
+              { key: spell.Name, staticClass: "list-group-item" },
+              [
+                _c("span", [
+                  _c("strong", [_vm._v(_vm._s(spell.Name))]),
+                  _vm._v(
+                    " | " +
+                      _vm._s(spell.Level) +
+                      " | " +
+                      _vm._s(spell["Casting Time"])
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card card-body" }, [
+                  _vm._v(
+                    "\n                  " +
+                      _vm._s(spell.Duration) +
+                      " | " +
+                      _vm._s(spell.Range) +
+                      " \n                  "
+                  ),
+                  _c("br"),
+                  _vm._v(
+                    " \n                  " +
+                      _vm._s(spell.Components) +
+                      " | " +
+                      _vm._s(spell.School) +
+                      " \n                  "
+                  ),
+                  _c("br"),
+                  _vm._v(
+                    "\n                  " +
+                      _vm._s(spell.Text) +
+                      "\n                  "
+                  ),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("strong", [_vm._v("At Higher Levels:")]),
+                  _c("br"),
+                  _vm._v(_vm._s(spell["At Higher Levels"])),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.castSpell(spell)
+                        }
+                      }
+                    },
+                    [_vm._v("Cast Spell")]
+                  )
+                ])
+              ]
+            )
+          }),
+          0
+        ),
+        _vm._v("\n\n            Prepared spells"),
         _c("br"),
         _vm._v(
           "\n            " +
@@ -37655,7 +37918,7 @@ var render = function() {
         _c(
           "ul",
           { staticClass: "list-group", attrs: { id: "spells" } },
-          _vm._l(_vm.preparedSpells, function(spell, index) {
+          _vm._l(_vm.preparedList, function(spell, index) {
             return _c(
               "li",
               { key: spell.Name, staticClass: "list-group-item" },

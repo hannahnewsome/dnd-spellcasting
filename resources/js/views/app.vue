@@ -20,10 +20,62 @@
               </ul>
             </div>
             <div class="col">
+              Cantrips Known<br>
+              <ul id="spells" class="list-group">
+                <li v-for="(spell, index) in cantripList" v-bind:key="spell.Name" class="list-group-item">
+                  <span>
+                    <strong>{{ spell.Name }}</strong> | {{ spell.Level }} | {{ spell["Casting Time"] }}</span>
+                  <div class="card card-body">
+                    {{ spell.Duration }} | {{ spell.Range }} 
+                    <br> 
+                    {{ spell.Components }} | {{spell.School }} 
+                    <br>
+                    {{ spell.Text }}
+                    <br>
+                    <strong>At Higher Levels:</strong><br>{{ spell["At Higher Levels"] }}<br>
+                    <button type="button" class="btn btn-primary" v-on:click="castSpell(spell)">Cast Spell</button>
+                  </div>
+                </li>
+              </ul>
+              Spells Known<br>
+              <ul id="spells" class="list-group">
+                <li v-for="(spell, index) in spellsKnownList" v-bind:key="spell.Name" class="list-group-item">
+                  <span>
+                    <strong>{{ spell.Name }}</strong> | {{ spell.Level }} | {{ spell["Casting Time"] }}</span>
+                  <div class="card card-body">
+                    {{ spell.Duration }} | {{ spell.Range }} 
+                    <br> 
+                    {{ spell.Components }} | {{spell.School }} 
+                    <br>
+                    {{ spell.Text }}
+                    <br>
+                    <strong>At Higher Levels:</strong><br>{{ spell["At Higher Levels"] }}<br>
+                    <button type="button" class="btn btn-primary" v-on:click="castSpell(spell)">Cast Spell</button>
+                  </div>
+                </li>
+              </ul>
+              Subclass Spells<br>
+              <ul id="spells" class="list-group">
+                <li v-for="(spell, index) in subclassList" v-bind:key="spell.Name" class="list-group-item">
+                  <span>
+                    <strong>{{ spell.Name }}</strong> | {{ spell.Level }} | {{ spell["Casting Time"] }}</span>
+                  <div class="card card-body">
+                    {{ spell.Duration }} | {{ spell.Range }} 
+                    <br> 
+                    {{ spell.Components }} | {{spell.School }} 
+                    <br>
+                    {{ spell.Text }}
+                    <br>
+                    <strong>At Higher Levels:</strong><br>{{ spell["At Higher Levels"] }}<br>
+                    <button type="button" class="btn btn-primary" v-on:click="castSpell(spell)">Cast Spell</button>
+                  </div>
+                </li>
+              </ul>
+
               Prepared spells<br>
               {{ getAvailableToPrepareNumber() }} available spells to prepare<br>
               <ul id="spells" class="list-group">
-                <li v-for="(spell, index) in preparedSpells" v-bind:key="spell.Name" class="list-group-item">
+                <li v-for="(spell, index) in preparedList" v-bind:key="spell.Name" class="list-group-item">
                   <span>
                     <strong>{{ spell.Name }}</strong> | {{ spell.Level }} | {{ spell["Casting Time"] }}</span> <input type="checkbox" :checked="spell.prepared" v-on:change="unprepareSpell(spell)">
                   <div class="card card-body">
@@ -67,15 +119,15 @@ export default {
     },
     hideSpell(spell){
       spell.show = 0;
-      this.$set(this.spellList, spell.Name, spell); 
+      Vue.set(this.spellList, spell.Name, spell); 
       this.$forceUpdate(); //TODO see previous todo
     },
     prepareSpell(spell){
-      this.preparedSpells.push(spell);
+      this.preparedList.push(spell);
       this.$forceUpdate(); //TODO see previous todo; might want to handle prepared spells differently altogether by pushing and popping them from their own array
     }, 
     unprepareSpell(spell){
-      _.remove(this.preparedSpells, item => item.Name === spell.Name);
+      _.remove(this.preparedList, item => item.Name === spell.Name);
       this.$forceUpdate(); //TODO see previous todo
     },
     castSpell(spell){
@@ -88,18 +140,22 @@ export default {
       this.$forceUpdate(); //TODO see previous todo
     },
     getAvailableToPrepareNumber(){
-      let numberPrepared = this.preparedSpells.length;
+      let numberPrepared = this.preparedList.length;
       return parseInt(this.mainCharacter.level) + parseInt(this.mainCharacter.wis_mod) - numberPrepared;
     },
     getPreparedSpells(){
-      return this.preparedSpells;
+      return this.preparedList;
     }
   },
-  props: ['spells', 'character'],
+  props: ['spells', 'character', 'cantripsKnown', 'subclassSpells', 'charPreparedSpells', 'spellsKnown'],
   data() {
       return {
           spellList: JSON.parse(this.spells),
           mainCharacter: JSON.parse(this.character),
+          preparedList: JSON.parse(this.charPreparedSpells),
+          subclassList: JSON.parse(this.subclassSpells),
+          cantripList: JSON.parse(this.cantripsKnown),
+          spellsKnownList: JSON.parse(this.spellsKnown),
           preparedSpells: [],
           castSpells: []
       } 

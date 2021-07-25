@@ -23,7 +23,7 @@
     <body class="antialiased">
            
     <div id="app">
-        <app spells="{{ $spells }}" character="{{ $character }}"></app>
+        <app spells="{{ $spells }}" character="{{ $character }}" char-prepared-spells="{{ $preparedSpells }}" subclass-spells="{{ $subclassSpells }}" cantrips-known="{{ $cantripsKnown }}" spells-known="{{ $spellsKnown }}"></app>
     </div>
 
         <!-- Bootstrap -->
